@@ -1,0 +1,9 @@
+[
+  {
+    "artifact": "frcJava (in project SparksMotorController)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "SparksMotorController",
+    "language": "java"
+  }
+]

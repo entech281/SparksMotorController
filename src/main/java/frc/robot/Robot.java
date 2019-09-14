@@ -24,11 +24,16 @@ public class Robot extends TimedRobot {
    DriveSubsystem robotDrive = new DriveSubsystem();
      //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
+
+   @Override
+   public void robotInit() {
+     
+   }
      public void teleopPeriodic(){
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
+          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
      }
   
 }

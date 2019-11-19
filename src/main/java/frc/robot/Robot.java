@@ -8,9 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,21 +23,41 @@ import frc.robot.subsystems.DriveSubsystem;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+
 public class Robot extends TimedRobot {
   
-   DriveSubsystem robotDrive = new DriveSubsystem();
-     //Define joystick being used at USB port 1 on the Driver Station
-   Joystick m_driveStick = new Joystick(0);
+  DriveSubsystem robotDrive = new DriveSubsystem();
 
-   @Override
-   public void robotInit() {
-     
-   }
-     public void teleopPeriodic(){
-          SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-          SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-          SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
-     }
+  ShooterSubsystem shoot = new ShooterSubsystem();
+  private OperatorInterface oi = new OperatorInterface(this);
+  
+
+  //Define joystick being used at USB port 1 on the Driver Station
+  Joystick m_driveStick = new Joystick(0);
+
+  @Override
+  public void robotInit() {
+     oi.doNothing();
+  }
+
+  @Override
+  public void teleopPeriodic(){
+    Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
+    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
+    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
+    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
+  }
+
+  @Override
+  public void disabledPeriodic(){
+    Scheduler.getInstance().run();
+    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
+  }
+
+  public ShooterSubsystem getShooterSubsystem(){
+    return shoot;
+  }
   
 }

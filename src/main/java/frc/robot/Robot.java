@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**
@@ -30,34 +31,32 @@ public class Robot extends TimedRobot {
   DriveSubsystem robotDrive = new DriveSubsystem();
 
   ShooterSubsystem shoot = new ShooterSubsystem();
+  IntakeSubsystem intake = new IntakeSubsystem();
+
   private OperatorInterface oi = new OperatorInterface(this);
   
 
-  //Define joystick being used at USB port 1 on the Driver Station
-  Joystick m_driveStick = new Joystick(0);
-
   @Override
   public void robotInit() {
-     oi.doNothing();
   }
 
   @Override
   public void teleopPeriodic(){
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
+    robotDrive.drive(oi.getDriveInputX(), oi.getDriveInputY());
   }
 
   @Override
   public void disabledPeriodic(){
     Scheduler.getInstance().run();
-    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY());
+    robotDrive.drive(0, 0);
   }
 
   public ShooterSubsystem getShooterSubsystem(){
     return shoot;
   }
   
+  public IntakeSubsystem getIntakeSubsystem(){
+    return intake;
+  }
 }

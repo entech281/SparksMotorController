@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -12,9 +11,6 @@ import frc.robot.RobotMap;
 
 
 public class ShooterSubsystem extends Subsystem{
-    private Timer stopWatch = new Timer();
-    
-
     private double m_speed = 0;
     private double h_speed = 0;
 
@@ -25,13 +21,12 @@ public class ShooterSubsystem extends Subsystem{
     private final Solenoid m_solenoid1 = new Solenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.solenoid1);
     private final Solenoid m_solenoid2 = new Solenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.solenoid2);
 
-
     @Override
     protected void initDefaultCommand() {
         m_ShooterMotor.set(0);
         m_HopperMotor.set(0);
     }
-    public void setVelocityOfShooter(final double speed){
+    public void setShooterSpeed(final double speed){
         m_speed = speed;
     }
 
@@ -51,17 +46,15 @@ public class ShooterSubsystem extends Subsystem{
         m_HopperMotor.set(h_speed);
     }
 
+    public void setHopperSpeed(double speed){
+        m_HopperMotor.set(speed);
+    }
 
-    public void stop_shooting(){
+    public void stopShooting(){
         m_HopperMotor.set(0);
-        stopWatch.start();
         triggerClose();
-
-        stopWatch.delay(2);
-        stopWatch.stop();
-        setVelocityOfShooter(0);
-        shoot();
-        
-        
+        Timer.delay(2);
+        setShooterSpeed(0);
+        shoot(); 
     }
 }

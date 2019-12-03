@@ -39,4 +39,5 @@ gradle-app.setting
 .*
 !/.gitignore
 
+.settings/
 # End of https://www.gitignore.io/api/java,gradle

@@ -12,35 +12,35 @@ import frc.robot.RobotMap;
 public class OperatorInterface {
     private Robot robot;
     private Joystick driveStick;
-    private JoystickButton shootButton;
-    private JoystickButton emergencyIntakeStop;
+    private JoystickButtonManager buttons;
+
     
     public OperatorInterface(Robot robot){
-      this.robot = robot;
-      createButtons();
-      createCommands();
-
+        this.robot = robot;
+        createButtons();
     }
   
     protected void createButtons() {
-      driveStick = new Joystick(RobotMap.GAMEPAD.driverStick);
-      shootButton = new JoystickButton(driveStick, RobotMap.BUTTONS.shootButton);
-      emergencyIntakeStop = new JoystickButton(driveStick, RobotMap.BUTTONS.emergencyStopIntakeButton);
-    }
-    
-    protected void createCommands() { 
-        shootButton.whenPressed(new Shoot(this.robot.getShooterSubsystem()));
-        shootButton.whenReleased(new StopFeedingBalls(this.robot.getShooterSubsystem()));
-        emergencyIntakeStop.whenPressed(new EmergencyIntakeStop(this.robot.getIntakeSubsystem()));
+        try{ 
+            driveStick = new Joystick(RobotMap.GAMEPAD.driverStick);
+            buttons.newButton(RobotMap.BUTTONS.shootButton)
+                .whenPressed(new Shoot(this.robot.getShooterSubsystem()))
+                .whenReleased(new StopFeedingBalls(this.robot.getShooterSubsystem()))
+                .add();
+
+            buttons.newButton(RobotMap.BUTTONS.emergencyStopIntakeButton)
+                .whenPressed(new EmergencyIntakeStop(this.robot.getIntakeSubsystem()))
+                .add();
+        } catch(Exception e){ }
     }
     
     public double getDriveInputX(){
-      SmartDashboard.putNumber("Joystick X", driveStick.getX());
+        SmartDashboard.putNumber("Joystick X", driveStick.getX());
         return driveStick.getX();
     }
 
     public double getDriveInputY(){
-      SmartDashboard.putNumber("Joystick Y", driveStick.getY());
-      return -driveStick.getY();
-  }
-  }
+        SmartDashboard.putNumber("Joystick Y", driveStick.getY());
+        return - driveStick.getY();
+    }
+}

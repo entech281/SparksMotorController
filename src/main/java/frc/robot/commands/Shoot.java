@@ -16,17 +16,15 @@ public class Shoot extends Command {
   private ShooterSubsystem shooter;
   
   public Shoot(ShooterSubsystem shooter) {
-    this.shooter=shooter;
+    this.shooter = shooter;
     requires(shooter);
 }
 
 // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    shooter.setVelocityOfShooter(0.8);
-    shooter.shoot();
+    shooter.setShooterSpeed(0.8);
     SmartDashboard.putNumber("Button Pressed", 1);
-    // shooter.setShootRate(0);
   }
 
   // Called repeatedly when this Command is scheduled to run

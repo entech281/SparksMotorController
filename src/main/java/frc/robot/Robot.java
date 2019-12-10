@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic(){
     Scheduler.getInstance().run();
     robotDrive.drive(oi.getDriveInputX(), oi.getDriveInputY());
+    intake.run();
   }
 
   @Override
